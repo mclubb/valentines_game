@@ -71,6 +71,7 @@ BasicGame.Game.prototype = {
         this.add.sprite(1200, -25, 'cafeShop');
         this.add.sprite(3600, 450, 'elevator');
         this.add.sprite(6000, -25, 'tat8');
+        this.add.sprite(8400, -25, 'arch');
 
         // People in the cafe
         var person1 = this.add.sprite(1935, 220, 'people');

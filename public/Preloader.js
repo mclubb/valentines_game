@@ -39,6 +39,7 @@ BasicGame.Preloader.prototype = {
 
 		this.load.image('cafeShop', 'images/cafe.png');
 		this.load.image('elevator', 'images/elevator.png');
+		this.load.image('arch', 'images/arch.png');
 
 		this.load.image('background', 'images/background.png');
 		this.load.image('tat8', 'images/tat8.png');
