@@ -28,7 +28,7 @@ BasicGame.Preloader.prototype = {
 		this.load.image('titlepage', 'images/title.png');
 		this.load.image('playButton', 'images/play.png');
 
-
+		this.load.image('heart', 'images/heart.png');
 		this.load.image('introText', 'images/intro_text.png');
 		this.load.image('fabi', 'images/fabi.png');
 		this.load.image('tree', 'images/tree.png');
@@ -40,6 +40,11 @@ BasicGame.Preloader.prototype = {
 		this.load.image('cafeShop', 'images/cafe.png');
 		this.load.image('elevator', 'images/elevator.png');
 		this.load.image('arch', 'images/arch.png');
+
+		this.load.image('hitbox', 'images/blank.png');
+		this.load.image('message1', 'images/hey.png');
+		this.load.image('message2', 'images/hi.png');
+		this.load.image('message3', 'images/hello.png');
 
 		this.load.image('background', 'images/background.png');
 		this.load.image('tat8', 'images/tat8.png');

@@ -30,6 +30,9 @@ BasicGame.Game = function (game) {
 var map;
 var layer;
 var cursors;
+var moveSpeed = 10;
+var triggers = [];
+var messages = [];
 
 BasicGame.Game.prototype = {
 
@@ -71,13 +74,28 @@ BasicGame.Game.prototype = {
         this.add.sprite(1200, -25, 'cafeShop');
         this.add.sprite(3600, 450, 'elevator');
         this.add.sprite(6000, -25, 'tat8');
-        this.add.sprite(8400, -25, 'arch');
+        this.add.sprite(8400, -50, 'arch');
 
         // People in the cafe
         var person1 = this.add.sprite(1935, 220, 'people');
+        // Create a trigger box that is hidden as well as a message box
+        var trigger1 = this.add.sprite(1825, 0, 'hitbox')
+        triggers.push(trigger1);
+        var message1 = this.add.sprite(1850, 400, 'message1');
+        message1.visible = false;
+        messages.push(message1);
+
+
+
         var person2 = this.add.sprite(1550, 600, 'people');
         person2.anchor.setTo(.5, .5);
         person2.scale.x = -1;
+
+        var trigger2 = this.add.sprite(1340, 0, 'hitbox')
+        triggers.push(trigger2);
+        var message2 = this.add.sprite(1365, 400, 'message2');
+        message2.visible = false;
+        messages.push(message2);
 
         // People in the elevator
         var person3 =this.add.sprite(4200, 400, 'people');
@@ -92,27 +110,64 @@ BasicGame.Game.prototype = {
         person7.anchor.setTo(.5, .5);
         person7.scale.x = -1;
 
+        var trigger3 = this.add.sprite(6400, 0, 'hitbox')
+        triggers.push(trigger3);
+        var message3 = this.add.sprite(6425, 400, 'message3');
+        message3.visible = false;
+        messages.push(message3);
+
+
+        var mike = this.add.sprite(8915, 600, 'people');
+        mike.anchor.setTo(0.5, 0.5);
+        mike.scale.x = -1;
+
         this.player = this.add.sprite(512, 500, 'fabi');
 
     },
 
     update: function () {
 
-        //  Honestly, just about anything could go here. It's YOUR game after all. Eat your heart out!
+      var playerRect = new Phaser.Rectangle(this.player.x, this.player.y, this.player._frame.right, this.player._frame.bottom);
+      if( cursors.up.isDown)
+      {
+        console.log(playerRect);
+      }
 
       if (cursors.left.isDown)
       {
-          this.camera.x -= 4;
-          this.player.x -= 4;
+          this.camera.x -= moveSpeed;
+          this.player.x -= moveSpeed;
 
           if( this.player.x < 512 )
             this.player.x = 512;
       }
       else if (cursors.right.isDown)
       {
-          this.camera.x += 4;
-          this.player.x += 4;
+          this.camera.x += moveSpeed;
+          this.player.x += moveSpeed;
+
+          if( this.player.x > this.world.width - 512 )
+          {
+            this.player.x  = this.world.width - 512;
+          }
       }
+
+      // Check to see if player is intersecting a trigger box
+      for(var i = 0; i < triggers.length; i++)
+      {
+        var t = triggers[i];
+        var triggerRect = new Phaser.Rectangle(t.x, t.y, t._frame.right, t._frame.bottom);
+        if( Phaser.Rectangle.intersects(playerRect, triggerRect) )
+        {
+          console.log("collided");
+           messages[i].visible = true;
+        }
+        else
+        {
+          messages[i].visible = false;
+        }
+      }
+
 
       this.background.x = this.camera.x;
     },
