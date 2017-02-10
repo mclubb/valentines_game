@@ -33,6 +33,7 @@ var cursors;
 var moveSpeed = 10;
 var triggers = [];
 var messages = [];
+var clouds = [];
 
 BasicGame.Game.prototype = {
 
@@ -63,7 +64,7 @@ BasicGame.Game.prototype = {
         this.add.sprite(900, 400, 'tree');
 
         for(var i = 0; i < 30; i++) {
-          this.add.sprite(i * 512, 0, 'cloud');
+          clouds.push(this.add.sprite(i * 512, 0, 'cloud'));
         }
 
         // Intro text
@@ -71,10 +72,15 @@ BasicGame.Game.prototype = {
 
 
 
-        this.add.sprite(1200, -25, 'cafeShop');
-        this.add.sprite(3600, 450, 'elevator');
-        this.add.sprite(6000, -25, 'tat8');
-        this.add.sprite(8400, -50, 'arch');
+        var cafe = this.add.sprite(1200, 0, 'cafeShop');
+        cafe.scale.setTo(10);
+        var elevator = this.add.sprite(3600, 0, 'elevator');
+        elevator.scale.setTo(10);
+
+        var tat8 = this.add.sprite(6000, 0, 'tat8');
+        tat8.scale.setTo(10);
+        var arch = this.add.sprite(8400, 0, 'arch');
+        arch.scale.setTo(10);
 
         // People in the cafe
         var person1 = this.add.sprite(1935, 220, 'people');
@@ -168,6 +174,11 @@ BasicGame.Game.prototype = {
         }
       }
 
+      // Move the clouds
+      for( var i = 0; i < clouds.length; i++ )
+      {
+        clouds[i].x -= 0.5;
+      }
 
       this.background.x = this.camera.x;
     },
