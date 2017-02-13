@@ -22,7 +22,7 @@ BasicGame.MainMenu.prototype = {
 		heart.scale.setTo(12,12);
 		this.add.sprite(190, 0, 'titlepage');
 
-		this.playButton = this.add.button(450, 500, 'playButton', this.startGame, this, 'buttonOver', 'buttonOut', 'buttonOver');
+		this.playButton = this.add.button(450, 500, 'playButton', this.startGame, this);
 		//this.state.start('Game');
 
 		pHearts = this.add.emitter(0, 0, 50);
