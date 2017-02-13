@@ -21,6 +21,8 @@ BasicGame.Game = function (game) {
     this.rnd;       //  the repeatable random number generator (Phaser.RandomDataGenerator)
     this.background;
     this.player;
+    this.mike;
+    this.gameover = false;
 
     //  You can use any of these from any function within this State.
     //  But do consider them as being 'reserved words', i.e. don't create a property for your own game called "world" or you'll over-write the world reference.
@@ -64,7 +66,10 @@ BasicGame.Game.prototype = {
         this.add.sprite(900, 400, 'tree');
 
         for(var i = 0; i < 30; i++) {
-          clouds.push(this.add.sprite(i * 512, 0, 'cloud'));
+          var cloud = this.add.sprite(i * 512, 0, 'cloud');
+          var r = Math.random() %2 * 10;
+          cloud.scale.setTo(r);
+          clouds.push(cloud);
         }
 
         // Intro text
@@ -85,9 +90,9 @@ BasicGame.Game.prototype = {
         // People in the cafe
         var person1 = this.add.sprite(1935, 220, 'people');
         // Create a trigger box that is hidden as well as a message box
-        var trigger1 = this.add.sprite(1825, 0, 'hitbox')
+        var trigger1 = this.add.sprite(1625, 0, 'hitbox')
         triggers.push(trigger1);
-        var message1 = this.add.sprite(1850, 400, 'message1');
+        var message1 = this.add.sprite(1700, 400, 'message1');
         message1.visible = false;
         messages.push(message1);
 
@@ -123,17 +128,31 @@ BasicGame.Game.prototype = {
         messages.push(message3);
 
 
-        var mike = this.add.sprite(8915, 600, 'people');
-        mike.anchor.setTo(0.5, 0.5);
-        mike.scale.x = -1;
+        this.mike = this.add.sprite(8915, 370, 'mike');
 
-        this.player = this.add.sprite(512, 500, 'fabi');
+        this.mike.scale.setTo(10);
+
+        // Fabi
+        this.player = this.add.sprite(312, 400, 'fabi');
+        this.player.scale.setTo(10);
 
     },
 
     update: function () {
 
+      // Move the clouds
+      for( var i = 0; i < clouds.length; i++ )
+      {
+        clouds[i].x -= 0.5;
+      }
+
+      if(this.gameover)
+      {
+        return;
+      }
+
       var playerRect = new Phaser.Rectangle(this.player.x, this.player.y, this.player._frame.right, this.player._frame.bottom);
+      var mikeRect = new Phaser.Rectangle(this.mike.x - 50, this.mike.y, this.mike._frame.right, this.mike._frame.bottom);
       if( cursors.up.isDown)
       {
         console.log(playerRect);
@@ -144,10 +163,10 @@ BasicGame.Game.prototype = {
           this.camera.x -= moveSpeed;
           this.player.x -= moveSpeed;
 
-          if( this.player.x < 512 )
-            this.player.x = 512;
+          if( this.player.x < 312 )
+            this.player.x = 312;
       }
-      else if (cursors.right.isDown)
+      else if (cursors.right.isDown || this.input.pointer1.isDown)
       {
           this.camera.x += moveSpeed;
           this.player.x += moveSpeed;
@@ -174,11 +193,12 @@ BasicGame.Game.prototype = {
         }
       }
 
-      // Move the clouds
-      for( var i = 0; i < clouds.length; i++ )
+      // Check to see if Fabi intersects with mike
+      if(Phaser.Rectangle.intersects(playerRect, mikeRect))
       {
-        clouds[i].x -= 0.5;
+        this.gameover = true;
       }
+
 
       this.background.x = this.camera.x;
     },

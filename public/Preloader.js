@@ -31,6 +31,7 @@ BasicGame.Preloader.prototype = {
 		this.load.image('heart', 'images/heart.png');
 		this.load.image('introText', 'images/intro_text.png');
 		this.load.image('fabi', 'images/fabi.png');
+		this.load.image('mike', 'images/mike.png');
 		this.load.image('tree', 'images/tree.png');
 		this.load.image('cloud', 'images/cloud.png');
 
